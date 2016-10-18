@@ -1,9 +1,9 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     //Full calendar plugin
     $('#calendar').fullCalendar({
         /* disable past dates and future dates shows only next 4 weeks */
-        viewRender: function(month) {
+        viewRender: function (month) {
             var minDate = moment(),
                 maxDate = moment().add(4, 'weeks');
             // Past
@@ -31,7 +31,7 @@ $(document).ready(function() {
         },
         defaultView: 'month',
         events: 'full_cal/cal.json',
-        dayClick: function(date, jsEvent, view) {
+        dayClick: function (date, jsEvent, view) {
 
             if (view.name === "month") {
                 $('#calendar').fullCalendar('gotoDate', date);
@@ -49,13 +49,21 @@ $(document).ready(function() {
                 minTime: "06:00:00"
             }
         },
-        eventRender: function(event, element, view) {
+        eventClick: function(calEvent, jsEvent, view) {
 
+        var r=confirm("Delete " + calEvent.title);
+              if (r===true)
+                {
+                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+                }
+
+    },
+        eventRender: function (event, element, view) {
 
             var dataToFind = moment(event.start).format('YYYY-MM-DD');
             $("td[data-date='" + dataToFind + "']").addClass('activeDay');
         }
-    }).on('click', '.fc-agendaDay-button', function() {
+    }).on('click', '.fc-agendaDay-button', function () {
         $(".check-event-btn").delay(800).fadeIn(500);
 
     });
@@ -72,7 +80,7 @@ $(document).ready(function() {
     document.querySelector(".details-day-name").innerHTML = dayNames[todayDayId];
 
     /* add event to json file */
-    $('form.ajax').on('submit', function(e) {
+    $('form.ajax').on('submit', function (e) {
         e.preventDefault();
         var selectDay = $("#select-day");
         var startHour = $("#start-hour");
@@ -83,46 +91,46 @@ $(document).ready(function() {
             endHour: endHour.val(),
         }
         if ((params.selectDay != "") && (params.startHour != "") && (params.endHour != "")) {
-        $.ajax({
-            type: 'POST',
-            data: params,
-            url: 'full_cal/save_to_json.php',
+            $.ajax({
+                type: 'POST',
+                data: params,
+                url: 'full_cal/save_to_json.php',
 
-            success: function(data) {
-                alert('Termin został poprawnie dodany');
-                window.location.reload(true);
-            },
-            error: function(data) {
-                alert('UPS, wystąpił błąd');
-            },
-            complete: function() {
-                console.log('Complete');
-            }
-        });
+                success: function (data) {
+                    alert('Termin został poprawnie dodany');
+                    window.location.reload(true);
+                },
+                error: function (data) {
+                    alert('UPS, wystąpił błąd');
+                },
+                complete: function () {
+                    console.log('Complete');
+                }
+            });
         } else {
-                if (params.selectDay === "") {
-                    alert("Musisz wybrać dzień korepetycji");
+            if (params.selectDay === "") {
+                alert("Musisz wybrać dzień korepetycji");
 
-                } else if (params.startHour === "") {
-                    alert("Musisz podać godzinę rozpoczęcia");
+            } else if (params.startHour === "") {
+                alert("Musisz podać godzinę rozpoczęcia");
 
-                } else if (params.endHour === "") {
-                    alert("Musisz podać godzinę zakończenia");
+            } else if (params.endHour === "") {
+                alert("Musisz podać godzinę zakończenia");
 
-                } 
             }
+        }
         return false;
     });
 
-/* datepicker and timepicker */
+    /* datepicker and timepicker */
     $('#select-day').datepicker({
         dateFormat: "yy-mm-dd"
     });
     $('#start-hour').timepicker({ 'step': 15, 'forceRoundTime': true, 'timeFormat': 'H:i', 'disableTimeRanges': [['0am', '5:59am']] });
     $('#end-hour').timepicker({ 'step': 15, 'forceRoundTime': true, 'timeFormat': 'H:i', 'disableTimeRanges': [['0am', '5:59am']] });
-/*reload page after click on month or day button */
-$(".fc-month-button ").click(function(event) {
-	window.location.reload(true);
-});
+    /*reload page after click on month or day button */
+    $(".fc-month-button ").click(function (event) {
+        window.location.reload(true);
+    });
 
 });
