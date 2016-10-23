@@ -19,6 +19,7 @@
 				$current_data = file_get_contents('cal.json');
 				$array_data = json_decode($current_data, true);
 				$extra = array(
+						'id' => '1',
 						'title' => 'TERMIN ZAREZERWOWANY',
 						'start' => $_POST['selectDay'] . 'T' . $_POST['startHour'],
 						'end'	=> $_POST['selectDay'] . 'T' . $_POST['endHour']

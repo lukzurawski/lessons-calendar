@@ -55,6 +55,7 @@ $(document).ready(function () {
               if (r===true)
                 {
                     $('#calendar').fullCalendar('removeEvents', calEvent._id);
+
                 }
 
     },
@@ -88,7 +89,7 @@ $(document).ready(function () {
         var params = {
             selectDay: selectDay.val(),
             startHour: startHour.val(),
-            endHour: endHour.val(),
+            endHour: endHour.val()
         }
         if ((params.selectDay != "") && (params.startHour != "") && (params.endHour != "")) {
             $.ajax({
