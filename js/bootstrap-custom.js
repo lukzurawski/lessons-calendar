@@ -51,7 +51,7 @@ $(document).ready(function () {
         },
         eventClick: function(calEvent, jsEvent, view) {
 
-        var r=confirm("Delete " + calEvent.title);
+        var r=confirm("Skasować " + calEvent.title + "?");
               if (r===true)
                 {
                     $('#calendar').fullCalendar('removeEvents', calEvent._id);
