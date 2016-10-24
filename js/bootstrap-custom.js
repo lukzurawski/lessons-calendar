@@ -49,16 +49,27 @@ $(document).ready(function () {
                 minTime: "06:00:00"
             }
         },
-        eventClick: function(calEvent, jsEvent, view) {
+        eventClick: function (calEvent, jsEvent, view) {
 
-        var r=confirm("Skasować " + calEvent.title + "?");
-              if (r===true)
-                {
-                    $('#calendar').fullCalendar('removeEvents', calEvent._id);
+            var r = confirm("Skasować " + calEvent.title + "?");
+            if (r === true) {
+                
+                alert('Event id: ' + calEvent.id);
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    data: {
+                        'eventId': calEvent.id
+                    },
+                    url: 'full_cal/remove_from_json.php'
 
-                }
+                });
+                $('#calendar').fullCalendar('removeEvents', calEvent._id);
 
-    },
+
+            }
+
+        },
         eventRender: function (event, element, view) {
 
             var dataToFind = moment(event.start).format('YYYY-MM-DD');
