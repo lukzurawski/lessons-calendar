@@ -1,8 +1,6 @@
 <?php
 	$message = '';
 	$error = '';
-	$eventId = 99; //pobierac eventId ostatni z tablicy z json, zwiekszyc o 1 i zapis do json
-
 
 	if (isset($_POST['selectDay']) && isset($_POST['startHour']) && isset($_POST['endHour']))
 	{
@@ -20,9 +18,14 @@
 			if (file_exists('cal.json')) {
 				$current_data = file_get_contents('cal.json');
 				$array_data = json_decode($current_data, true);
-				
-
-
+				$jsonLength = count($array_data);
+				if ($jsonLength == 0) {
+					$eventId = 1;
+				}
+				else {
+					$eventId = $array_data[$jsonLength-1][id];
+					$eventId++;
+				}
 				$extra = array(
 						'id' => $eventId,
 						'title' => 'TERMIN ZAREZERWOWANY',
